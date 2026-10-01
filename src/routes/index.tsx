@@ -45,6 +45,7 @@ export const Route = createFileRoute("/")({
 function BrandServices() {
   const [active, setActive] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const activeService = services[active] ?? services[0];
 
   useEffect(() => {
     let frame = 0;
@@ -108,9 +109,9 @@ function BrandServices() {
             <div className="service-copy" aria-live="polite">
               <p className="service-count">0{active + 1} / 04</p>
               <div key={active} className="copy-enter">
-                <h1>{services[active].title.split("\n").map((line) => <span key={line}>{line}</span>)}</h1>
-                <h2>{services[active].subtitle}</h2>
-                <p>{services[active].body}</p>
+                <h1>{activeService.title.split("\n").map((line) => <span key={line}>{line}</span>)}</h1>
+                <h2>{activeService.subtitle}</h2>
+                <p>{activeService.body}</p>
               </div>
               <button className="inquiry-link" type="button">Start a conversation <span aria-hidden="true">↗</span></button>
             </div>
@@ -130,8 +131,10 @@ function BrandServices() {
 }
 
 function LaptopSequence({ stage }: { stage: number }) {
+  const activeService = services[stage] ?? services[0];
+
   return (
-    <div className="device-stage" data-stage={stage} aria-label={`${services[stage].tab} visual`}>
+    <div className="device-stage" data-stage={stage} aria-label={`${activeService.tab} visual`}>
       <div className="campaign campaign-a"><small>DESIGNED TO</small><strong>MOVE</strong><span>Campaign 01</span></div>
       <div className="campaign campaign-b"><small>BUILT FOR</small><strong>NEXT</strong><span>Campaign 02</span></div>
 

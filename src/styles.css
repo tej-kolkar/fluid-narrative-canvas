@@ -76,12 +76,12 @@ button { color: inherit; }
 
 .device-stage { position: relative; height: min(67vh, 610px); min-height: 450px; perspective: 1400px; transform-style: preserve-3d; }
 .device-shadow { position: absolute; left: 10%; right: 5%; bottom: 7%; height: 9%; border-radius: 50%; background: color-mix(in oklch, var(--screen-deep) 85%, transparent); filter: blur(22px); opacity: .7; transition: all 1s cubic-bezier(.22,1,.36,1); }
-.laptop { position: absolute; left: 8%; top: 19%; width: min(78%, 610px); height: 66%; transform-style: preserve-3d; transition: transform 1s cubic-bezier(.22,1,.36,1), left 1s cubic-bezier(.22,1,.36,1), width 1s cubic-bezier(.22,1,.36,1); z-index: 4; }
+.laptop { position: absolute; left: 8%; top: 19%; width: min(78%, 610px); height: auto; aspect-ratio: 1.4; transform-style: preserve-3d; transition: transform 1s cubic-bezier(.22,1,.36,1), left 1s cubic-bezier(.22,1,.36,1), width 1s cubic-bezier(.22,1,.36,1); z-index: 4; }
 .laptop-lid { position: absolute; left: 5%; top: 0; width: 90%; aspect-ratio: 1.58; padding: 9px; border: 1px solid var(--device-edge); border-radius: 10px 10px 5px 5px; background: var(--device); box-shadow: 0 26px 70px color-mix(in oklch, var(--screen-deep) 70%, transparent), inset 0 0 0 1px color-mix(in oklch, var(--foreground) 50%, transparent); transform-origin: bottom; transform: rotateX(-73deg); opacity: .25; transition: transform 1.15s cubic-bezier(.22,1,.36,1), opacity .7s ease; }
 .device-stage[data-stage="0"] .laptop-lid, .device-stage[data-stage="1"] .laptop-lid, .device-stage[data-stage="2"] .laptop-lid, .device-stage[data-stage="3"] .laptop-lid { transform: rotateX(0deg); opacity: 1; }
 .laptop-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 3px; background: var(--screen); box-shadow: inset 0 0 55px color-mix(in oklch, var(--screen-deep) 64%, transparent); }
 .laptop-screen::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(122deg, transparent 20%, color-mix(in oklch, var(--foreground) 8%, transparent) 40%, transparent 61%); transform: translateX(-120%); animation: screen-sheen 5s 1.2s ease-in-out infinite; }
-.laptop-base { position: absolute; left: 0; top: 64%; width: 100%; height: 8%; border-radius: 3px 3px 25% 25%; background: linear-gradient(to bottom, var(--device), var(--device-edge)); transform: perspective(300px) rotateX(68deg); transform-origin: top; box-shadow: 0 10px 22px color-mix(in oklch, var(--screen-deep) 60%, transparent); }
+.laptop-base { position: absolute; left: 0; top: 80%; width: 100%; height: 8%; border-radius: 3px 3px 25% 25%; background: linear-gradient(to bottom, var(--device), var(--device-edge)); transform: perspective(300px) rotateX(68deg); transform-origin: top; box-shadow: 0 10px 22px color-mix(in oklch, var(--screen-deep) 60%, transparent); }
 .laptop-base i { position: absolute; left: 42%; width: 16%; height: 28%; border: 1px solid var(--device-edge); border-radius: 0 0 4px 4px; }
 
 .launch-screen, .site-screen, .interface-layer { position: absolute; transition: opacity .6s ease, transform .9s cubic-bezier(.22,1,.36,1); }
@@ -158,7 +158,7 @@ button { color: inherit; }
   .service-copy .copy-enter > p { font-size: 9px; max-width: 90%; }
   .inquiry-link { margin-top: 13px; }
   .device-stage { height: 100%; min-height: 260px; }
-  .laptop { left: 10%; top: 12%; width: 78%; height: 78%; }
+  .laptop { left: 10%; top: 12%; width: 78%; }
   .device-stage[data-stage="3"] .laptop { left: 3%; width: 67%; }
   .service-footer { grid-template-columns: 1fr 1.4fr; gap: 14px; }
   .service-footer > span:last-child { display: none; }
