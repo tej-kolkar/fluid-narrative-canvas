@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 const services = [
   {
@@ -45,23 +45,43 @@ export const Route = createFileRoute("/")({
 function BrandServices() {
   const [active, setActive] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
   const activeService = services[active] ?? services[0];
 
   useEffect(() => {
     let frame = 0;
-    const update = () => {
+    let target = 0;
+    let current = 0;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const renderTimeline = () => {
+      current = reduceMotion ? target : current + (target - current) * 0.14;
+      const timeline = current * 3;
+      const reposition = Math.min(1, Math.max(0, timeline));
+      const reinvent = Math.min(1, Math.max(0, timeline - 1));
+      const elevate = Math.min(1, Math.max(0, timeline - 2));
+      const style = stickyRef.current?.style;
+      style?.setProperty("--scroll-progress", current.toFixed(4));
+      style?.setProperty("--reposition", reposition.toFixed(4));
+      style?.setProperty("--reinvent", reinvent.toFixed(4));
+      style?.setProperty("--elevate", elevate.toFixed(4));
+      setActive(Math.min(3, Math.max(0, Math.round(timeline))));
+      if (Math.abs(target - current) > 0.0005) frame = requestAnimationFrame(renderTimeline);
+    };
+
+    const measure = () => {
       const section = sectionRef.current;
       if (!section) return;
       const rect = section.getBoundingClientRect();
       const distance = Math.max(1, section.offsetHeight - window.innerHeight);
-      const progress = Math.min(1, Math.max(0, -rect.top / distance));
-      setActive(Math.min(3, Math.floor(progress * 4)));
+      target = Math.min(1, Math.max(0, -rect.top / distance));
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(renderTimeline);
     };
     const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(update);
+      measure();
     };
-    update();
+    measure();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
@@ -82,7 +102,16 @@ function BrandServices() {
   return (
     <main className="brand-page">
       <section ref={sectionRef} className="service-scroll" aria-label="Brand services">
-        <div className="service-sticky">
+        <div
+          ref={stickyRef}
+          className="service-sticky"
+          style={{
+            "--scroll-progress": 0,
+            "--reposition": 0,
+            "--reinvent": 0,
+            "--elevate": 0,
+          } as CSSProperties}
+        >
           <header className="service-header">
             <a className="brand-mark" href="#top" aria-label="Studio home">
               <span>F</span><i />
@@ -121,7 +150,7 @@ function BrandServices() {
 
           <footer className="service-footer">
             <span>Strategic brand transformation</span>
-            <div className="progress-track"><i style={{ width: `${(active + 1) * 25}%` }} /></div>
+            <div className="progress-track"><i /></div>
             <span>Scroll to explore</span>
           </footer>
         </div>

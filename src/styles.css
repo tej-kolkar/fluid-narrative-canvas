@@ -74,22 +74,21 @@ button { color: inherit; }
 .inquiry-link { margin-top: 32px; border: 0; border-bottom: 1px solid var(--primary); background: transparent; padding: 0 0 7px; color: var(--foreground); font-size: 10px; text-transform: uppercase; cursor: pointer; }
 .inquiry-link span { color: var(--primary); margin-left: 8px; }
 
-.device-stage { position: relative; height: min(67vh, 610px); min-height: 450px; perspective: 1400px; transform-style: preserve-3d; }
-.device-shadow { position: absolute; left: 10%; right: 5%; bottom: 7%; height: 9%; border-radius: 50%; background: color-mix(in oklch, var(--screen-deep) 85%, transparent); filter: blur(22px); opacity: .7; transition: all 1s cubic-bezier(.22,1,.36,1); }
-.laptop { position: absolute; left: 8%; top: 19%; width: min(78%, 610px); height: auto; aspect-ratio: 1.4; transform-style: preserve-3d; transition: transform 1s cubic-bezier(.22,1,.36,1), left 1s cubic-bezier(.22,1,.36,1), width 1s cubic-bezier(.22,1,.36,1); z-index: 4; }
-.laptop-lid { position: absolute; left: 5%; top: 0; width: 90%; aspect-ratio: 1.58; padding: 9px; border: 1px solid var(--device-edge); border-radius: 10px 10px 5px 5px; background: var(--device); box-shadow: 0 26px 70px color-mix(in oklch, var(--screen-deep) 70%, transparent), inset 0 0 0 1px color-mix(in oklch, var(--foreground) 50%, transparent); transform-origin: bottom; transform: rotateX(-73deg); opacity: .25; transition: transform 1.15s cubic-bezier(.22,1,.36,1), opacity .7s ease; }
-.device-stage[data-stage="0"] .laptop-lid, .device-stage[data-stage="1"] .laptop-lid, .device-stage[data-stage="2"] .laptop-lid, .device-stage[data-stage="3"] .laptop-lid { transform: rotateX(0deg); opacity: 1; }
-.laptop-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 3px; background: var(--screen); box-shadow: inset 0 0 55px color-mix(in oklch, var(--screen-deep) 64%, transparent); }
+.device-stage { position: relative; height: min(67vh, 610px); min-height: 450px; perspective: 1400px; transform-style: preserve-3d; contain: layout paint; }
+.device-shadow { position: absolute; left: calc(10% - var(--elevate) * 4%); right: 5%; bottom: 7%; height: 9%; border-radius: 50%; background: color-mix(in oklch, var(--screen-deep) 85%, transparent); filter: blur(22px); opacity: calc(.7 - var(--elevate) * .12); transform: scaleX(calc(1 - var(--elevate) * .08)); will-change: transform, opacity; }
+.laptop { position: absolute; left: 8%; top: 19%; width: min(78%, 610px); height: auto; aspect-ratio: 1.4; transform-style: preserve-3d; transform: translate3d(calc(var(--elevate) * -3.7%), calc(var(--elevate) * 2%), 0) scale(calc(1 - var(--elevate) * .18)); transform-origin: center; will-change: transform; z-index: 4; }
+.laptop-lid { position: absolute; left: 5%; top: 0; width: 90%; aspect-ratio: 1.58; padding: 9px; border: 1px solid var(--device-edge); border-radius: 18px 18px 9px 9px; background: var(--device); box-shadow: 0 22px 55px color-mix(in oklch, var(--screen-deep) 58%, transparent), inset 0 0 0 1px color-mix(in oklch, var(--foreground) 50%, transparent); transform-origin: bottom; transform: rotateX(0deg); opacity: 1; }
+.laptop-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 11px; background: var(--screen); box-shadow: inset 0 0 55px color-mix(in oklch, var(--screen-deep) 64%, transparent); }
 .laptop-screen::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(122deg, transparent 20%, color-mix(in oklch, var(--foreground) 8%, transparent) 40%, transparent 61%); transform: translateX(-120%); animation: screen-sheen 5s 1.2s ease-in-out infinite; }
-.laptop-base { position: absolute; left: 0; top: 80%; width: 100%; height: 8%; border-radius: 3px 3px 25% 25%; background: linear-gradient(to bottom, var(--device), var(--device-edge)); transform: perspective(300px) rotateX(68deg); transform-origin: top; box-shadow: 0 10px 22px color-mix(in oklch, var(--screen-deep) 60%, transparent); }
+.laptop-base { position: absolute; left: 0; top: 80%; width: 100%; height: 8%; border-radius: 7px 7px 28% 28%; background: linear-gradient(to bottom, var(--device), var(--device-edge)); transform: perspective(300px) rotateX(68deg); transform-origin: top; box-shadow: 0 12px 22px color-mix(in oklch, var(--screen-deep) 48%, transparent); }
 .laptop-base i { position: absolute; left: 42%; width: 16%; height: 28%; border: 1px solid var(--device-edge); border-radius: 0 0 4px 4px; }
 
-.launch-screen, .site-screen, .interface-layer { position: absolute; transition: opacity .6s ease, transform .9s cubic-bezier(.22,1,.36,1); }
-.launch-screen { inset: 0; display: grid; place-content: center; text-align: center; opacity: 1; transform: scale(1); }
+.launch-screen, .site-screen, .interface-layer { position: absolute; will-change: transform, opacity; }
+.launch-screen { inset: 0; display: grid; place-content: center; text-align: center; opacity: calc(1 - var(--reposition)); transform: translate3d(0, calc(var(--reposition) * -8px), 0) scale(calc(1 - var(--reposition) * .08)); }
 .launch-screen span { font-size: clamp(11px, 1.1vw, 15px); letter-spacing: .42em; color: var(--primary); }
 .launch-screen strong { font: 900 clamp(38px, 5vw, 70px)/.9 var(--display-font); }
 .launch-screen i { width: 40px; height: 2px; background: var(--primary); margin: 18px auto 0; }
-.site-screen { inset: 0; padding: 7%; opacity: 0; transform: translateY(22px) scale(.96); }
+.site-screen { inset: 0; padding: 7%; opacity: calc(var(--reposition) * (1 - var(--reinvent)) + var(--elevate)); transform: translate3d(0, calc((1 - var(--reposition)) * 16px), 0) scale(calc(.96 + var(--reposition) * .04 - var(--reinvent) * .06 + var(--elevate) * .06)); }
 .site-nav { display: flex; justify-content: space-between; align-items: center; font-size: clamp(4px, .65vw, 9px); padding-bottom: 5%; border-bottom: 1px solid var(--border); }
 .site-nav b { color: var(--primary); }
 .site-nav span { color: var(--muted-foreground); }
@@ -99,43 +98,30 @@ button { color: inherit; }
 .site-hero i { position: absolute; right: 6%; top: 16%; width: 29%; aspect-ratio: 1; border: 1px solid var(--primary); border-radius: 50% 18% 50% 22%; transform: rotate(22deg); box-shadow: inset 0 0 20px var(--gold-soft); }
 .site-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3%; height: 22%; }
 .site-row span { display: block; border: 1px solid var(--border); background: color-mix(in oklch, var(--accent) 6%, transparent); }
-.interface-layer { left: 13%; right: 13%; height: 20%; display: flex; align-items: center; justify-content: space-between; padding: 0 7%; border: 1px solid color-mix(in oklch, var(--primary) 55%, transparent); background: color-mix(in oklch, var(--screen) 91%, var(--accent)); box-shadow: 0 12px 30px color-mix(in oklch, var(--screen-deep) 80%, transparent); opacity: 0; }
+.interface-layer { left: 13%; right: 13%; height: 20%; display: flex; align-items: center; justify-content: space-between; padding: 0 7%; border: 1px solid color-mix(in oklch, var(--primary) 55%, transparent); border-radius: 8px; background: color-mix(in oklch, var(--screen) 91%, var(--accent)); box-shadow: 0 12px 26px color-mix(in oklch, var(--screen-deep) 62%, transparent); opacity: calc(var(--reinvent) * (1 - var(--elevate))); }
 .interface-layer b { color: var(--primary); font-size: 9px; }
 .interface-layer span { font-size: clamp(7px, .8vw, 11px); }
-.layer-one { top: 18%; transform: translate3d(-14%, 110%, 0) rotate(-4deg); }
-.layer-two { top: 40%; transform: translate3d(12%, 0, 0) rotate(3deg); }
-.layer-three { top: 62%; transform: translate3d(-5%, -110%, 0) rotate(-2deg); }
+.layer-one { top: 18%; transform: translate3d(calc(-14% + var(--reinvent) * 5%), calc(110% - var(--reinvent) * 130%), calc(var(--reinvent) * 55px)) rotate(calc(-4deg + var(--elevate) * 4deg)); }
+.layer-two { top: 40%; transform: translate3d(calc(12% - var(--reinvent) * 4%), 0, calc(var(--reinvent) * 110px)) rotate(calc(3deg - var(--elevate) * 3deg)); }
+.layer-three { top: 62%; transform: translate3d(calc(-5% + var(--reinvent) * 1%), calc(-110% + var(--reinvent) * 130%), calc(var(--reinvent) * 165px)) rotate(calc(-2deg + var(--elevate) * 2deg)); }
 
-.device-stage[data-stage="1"] .launch-screen, .device-stage[data-stage="2"] .launch-screen, .device-stage[data-stage="3"] .launch-screen { opacity: 0; transform: scale(.88); }
-.device-stage[data-stage="1"] .site-screen, .device-stage[data-stage="3"] .site-screen { opacity: 1; transform: translateY(0) scale(1); }
-.device-stage[data-stage="2"] .site-screen { opacity: .08; transform: scale(.88); }
-.device-stage[data-stage="2"] .interface-layer { opacity: 1; }
-.device-stage[data-stage="2"] .layer-one { transform: translate3d(-9%, -20%, 55px) rotate(-4deg); }
-.device-stage[data-stage="2"] .layer-two { transform: translate3d(8%, 0, 110px) rotate(3deg); }
-.device-stage[data-stage="2"] .layer-three { transform: translate3d(-4%, 20%, 165px) rotate(-2deg); }
-.device-stage[data-stage="3"] .laptop { left: 4%; width: 64%; transform: translateY(2%); }
-
-.phone { position: absolute; z-index: 7; right: 7%; bottom: 17%; width: 15%; max-width: 98px; aspect-ratio: .5; padding: 5px; border: 1px solid var(--device-edge); border-radius: 13px; background: var(--device); box-shadow: 0 18px 36px color-mix(in oklch, var(--screen-deep) 75%, transparent); opacity: 0; transform: translate3d(35px, 28px, 0) rotate(7deg) scale(.78); transition: all .9s .08s cubic-bezier(.22,1,.36,1); }
-.phone-screen { height: 100%; border-radius: 8px; background: var(--screen); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.phone { position: absolute; z-index: 7; right: 7%; bottom: 17%; width: 15%; max-width: 98px; aspect-ratio: .5; padding: 5px; border: 1px solid var(--device-edge); border-radius: 20px; background: var(--device); box-shadow: 0 16px 34px color-mix(in oklch, var(--screen-deep) 62%, transparent); opacity: var(--elevate); transform: translate3d(calc((1 - var(--elevate)) * 35px), calc((1 - var(--elevate)) * 24px), 0) rotate(calc(7deg - var(--elevate) * 4deg)) scale(calc(.82 + var(--elevate) * .18)); will-change: transform, opacity; }
+.phone-screen { height: 100%; border-radius: 15px; background: var(--screen); display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .phone-screen small { color: var(--primary); font-size: 5px; letter-spacing: .2em; }
 .phone-screen strong { font: 900 clamp(8px, 1.2vw, 15px)/1 var(--display-font); }
 .phone-screen i { width: 18px; height: 1px; margin: 9px 0; background: var(--primary); }
 .phone-screen span { font-size: 5px; color: var(--muted-foreground); }
-.campaign { position: absolute; z-index: 6; width: 22%; aspect-ratio: 1.38; padding: 4%; border: 1px solid var(--gold-soft); background: var(--screen); box-shadow: 0 16px 36px color-mix(in oklch, var(--screen-deep) 70%, transparent); opacity: 0; display: flex; flex-direction: column; justify-content: flex-end; transition: all .9s cubic-bezier(.22,1,.36,1); }
+.campaign { position: absolute; z-index: 6; width: 22%; aspect-ratio: 1.38; padding: 4%; border: 1px solid var(--gold-soft); border-radius: 12px; background: var(--screen); box-shadow: 0 14px 30px color-mix(in oklch, var(--screen-deep) 58%, transparent); opacity: var(--elevate); display: flex; flex-direction: column; justify-content: flex-end; will-change: transform, opacity; }
 .campaign small { color: var(--primary); font-size: 5px; }
 .campaign strong { font: 900 clamp(12px, 1.8vw, 25px)/1 var(--display-font); }
 .campaign span { margin-top: 8px; color: var(--muted-foreground); font-size: 5px; }
-.campaign-a { right: 3%; top: 17%; transform: translate(30px,-18px) rotate(7deg); }
-.campaign-b { right: 12%; top: 44%; transform: translate(25px,12px) rotate(-5deg); }
-.device-stage[data-stage="3"] .phone, .device-stage[data-stage="3"] .campaign { opacity: 1; }
-.device-stage[data-stage="3"] .phone { transform: translate3d(0,0,0) rotate(3deg) scale(1); }
-.device-stage[data-stage="3"] .campaign-a { transform: translate(0,0) rotate(4deg); }
-.device-stage[data-stage="3"] .campaign-b { transform: translate(0,0) rotate(-3deg); }
+.campaign-a { right: 3%; top: 17%; transform: translate3d(calc((1 - var(--elevate)) * 30px), calc((1 - var(--elevate)) * -18px), 0) rotate(calc(7deg - var(--elevate) * 3deg)) scale(calc(.88 + var(--elevate) * .12)); }
+.campaign-b { right: 12%; top: 44%; transform: translate3d(calc((1 - var(--elevate)) * 25px), calc((1 - var(--elevate)) * 12px), 0) rotate(calc(-5deg + var(--elevate) * 2deg)) scale(calc(.88 + var(--elevate) * .12)); }
 
 .service-footer { display: grid; grid-template-columns: 1fr minmax(180px, 380px) 1fr; align-items: center; gap: 26px; color: var(--muted-foreground); font-size: 8px; text-transform: uppercase; letter-spacing: .12em; }
 .service-footer > span:last-child { text-align: right; }
 .progress-track { height: 1px; background: var(--border); }
-.progress-track i { display: block; height: 1px; background: var(--primary); transition: width .7s cubic-bezier(.22,1,.36,1); }
+.progress-track i { display: block; width: calc(25% + var(--scroll-progress) * 75%); height: 1px; background: var(--primary); }
 
 @keyframes copy-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes screen-sheen { 0%,55% { transform: translateX(-120%); } 78%,100% { transform: translateX(120%); } }
@@ -159,7 +145,7 @@ button { color: inherit; }
   .inquiry-link { margin-top: 13px; }
   .device-stage { height: 100%; min-height: 260px; }
   .laptop { left: 10%; top: 12%; width: 78%; }
-  .device-stage[data-stage="3"] .laptop { left: 3%; width: 67%; }
+  .laptop { transform: translate3d(calc(var(--elevate) * -4%), calc(var(--elevate) * 2%), 0) scale(calc(1 - var(--elevate) * .14)); }
   .service-footer { grid-template-columns: 1fr 1.4fr; gap: 14px; }
   .service-footer > span:last-child { display: none; }
   .phone { bottom: 10%; }
