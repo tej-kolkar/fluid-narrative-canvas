@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the four-service experience as a single scroll-driven route with lightweight CSS/SVG-style device artwork; this preserves reversible motion without a 3D runtime.
